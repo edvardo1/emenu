@@ -86,16 +86,14 @@ run(struct Entry **entries, int entriesc, int r, int g, int b)
 void
 help(void)
 {
-	printf(
-		"Format:\n  "
-		"emenu <Window Height> <Window Width> <Button Height> <Button Width> "
-		"<Hex Background Colour> Entries\n"
-		"Entries format:\n  "
-		"<image> <return string>\n"
-		"Example:\n  "
-		"emenu 600 800 100 100 FFFFFF entry1.png entry1string"
-		" entry2.png entry2string\n"
-	);
+	puts("Format:\n  "
+	     "emenu <Window Height> <Window Width> <Button Height> <Button Width> "
+	     "<Hex Background Colour> Entries\n"
+	     "Entries format:\n  "
+	     "<image> <return string>\n"
+	     "Example:\n  "
+	     "emenu 600 800 100 100 FFFFFF entry1.png entry1string"
+	     " entry2.png entry2string\n");
 }
 
 int
