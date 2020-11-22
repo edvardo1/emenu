@@ -1,58 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include "def.h"
+#include "sdl_init_and_halt.c"
 #include "entry.c"
-
-#define PROGRAM_NAME "EMENU"
-#define VERSION "0.2"
-#define DEBUG_PRINT printf("reached here\n")
-#define REPORT_ERROR(when) \
-do { \
-	printf("An error happened in %s: %s\n", when, SDL_GetError()); \
-	fflush(stdout); \
-} while(0)
-
-SDL_Window *win;
-SDL_Renderer *ren;
-SDL_Event eve;
-
-
-void
-init_sdl(int window_height, int window_width)
-{
-	if(SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-		REPORT_ERROR("SDL_Init");
-		exit(1);
-	}
-	win = SDL_CreateWindow(PROGRAM_NAME " " VERSION,
-	                       SDL_WINDOWPOS_CENTERED,
-	                       SDL_WINDOWPOS_CENTERED,
-	                       window_width,
-	                       window_height,
-	                       0);
-	ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
-
-	if(win == NULL || ren == NULL) {
-		REPORT_ERROR("win or ren are NULL");
-		SDL_Quit();
-		exit(1);
-	}
-
-	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP);
-}
-
-void
-halt_sdl(int exit_code)
-{
-	IMG_Quit();
-	SDL_DestroyRenderer(ren);
-	SDL_DestroyWindow(win);
-	SDL_Quit();
-	exit(exit_code);
-}
 
 SDL_Texture *
 get_texture_from_filename(char *name)
@@ -63,7 +16,7 @@ get_texture_from_filename(char *name)
 	surface = IMG_Load(name);
 
 	if(!surface) {
-		puts(IMG_GetError());
+		fputs(IMG_GetError(), stderr);
 		halt_sdl(1);
 	}
 
@@ -87,7 +40,8 @@ mousedown(struct Entry **entries, int entriesc)
 	for(i = 0; i < entriesc; ++i) {
 		is_over_button =
 			(entries[i]->proportions->x < mousex &&
-			 mousex < entries[i]->proportions->x + entries[i]->proportions->w) &&
+			 mousex < entries[i]->proportions->x + entries[i]->proportions->w)
+			&&
 			(entries[i]->proportions->y < mousey &&
 			 mousey < entries[i]->proportions->y + entries[i]->proportions->h);
 		if(is_over_button) {
@@ -157,6 +111,7 @@ main(int argc, char **argv)
 		return 0;
 	}
 
+	/* This is all temporary, later on it will all be replaced by JSON */
 	resx = atoi(argv[0]);
 	resy = atoi(argv[1]);
 	button_width = atoi(argv[2]);
@@ -171,7 +126,7 @@ main(int argc, char **argv)
 	/* setup */
 	struct Entry **entries = malloc(entriesc * sizeof(struct Entry*));
 	if(entries == NULL) {
-		puts("Malloc failed to allocate memory for entries");
+		fputs("Malloc failed to allocate memory for entries\n", stderr);
 		halt_sdl(0);
 	}
 
