@@ -41,9 +41,11 @@ mousedown(struct Entry **entries, int entriesc)
 		is_over_button =
 			(entries[i]->proportions->x < mousex &&
 			 mousex < entries[i]->proportions->x + entries[i]->proportions->w)
+		    /* entries[i]->proportions->x < mousex < entries[i]->proportions->x + entries[i]->proportions->w */
 			&&
 			(entries[i]->proportions->y < mousey &&
 			 mousey < entries[i]->proportions->y + entries[i]->proportions->h);
+		    /* entries[i]->proportions->y < mousey < entries[i]->proportions->y + entries[i]->proportions-> */
 		if(is_over_button) {
 			puts(entries[i]->return_string);
 			return 1;
