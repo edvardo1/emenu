@@ -70,7 +70,7 @@ run(struct Entry **entries, int entriesc, int r, int g, int b)
 		if(SDL_SetRenderDrawColor(ren, r, g, b, 0) != 0) { 
 			REPORT_ERROR("SDL_SetRenderDrawColor");
 		}
-		if(SDL_RenderClear(ren)) {
+		if(SDL_RenderClear(ren) != 0) {
 			REPORT_ERROR("SDL_RenderClear");
 		}
 		for(i = 0; i < entriesc; ++i) {
