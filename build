@@ -1,0 +1,29 @@
+#!/bin/sh
+
+if test -z $1
+then
+	COMMAND='gcc -Wall -lSDL2 -lSDL2_image -o emenu emenu.c'
+	echo $COMMAND
+	$(echo $COMMAND)
+elif test $1 = "debug"
+then
+	COMMAND=' gcc -g -Wall -lSDL2 -lSDL2_image -o emenu emenu.c'
+	echo $COMMAND
+	$(echo $COMMAND)
+elif test $1 = "install"
+then
+	if test -e emenu
+	then
+		COMMAND='cp ./emenu /usr/bin/emenu'
+		echo $COMMAND
+		$(echo $COMMAND)
+	else
+		echo "You have to build it with ./build before ./build install"
+	fi
+else
+	echo "Invalid argument."
+	echo "arguments:"
+	echo "	No argument, compiles to ./emenu"
+	echo "	debug, compiles to ./emenu with -Og and -g"
+	echo "	install, copies ./emenu to /bin/emenu"
+fi
