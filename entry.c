@@ -20,7 +20,7 @@ make_entry(int x, int y, int w, int h, SDL_Texture *image, char *return_string)
 	proportions->h = h;
 	proportions->w = w;
 	struct Entry *entry = malloc(sizeof(struct Entry*));
-		if(proportions == NULL) {
+	if(proportions == NULL) {
 		fputs("Failed to allocate memory for struct Entry *entry\n", stderr);
 		halt_sdl(1);	
 	}
