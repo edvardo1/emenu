@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 
 #define PROGRAM_NAME "EMENU"
-#define VERSION "0.2"
+#define VERSION "0.25"
 #define DEBUG_PRINT printf("reached here\n")
 #define REPORT_ERROR(when) \
 do { \
